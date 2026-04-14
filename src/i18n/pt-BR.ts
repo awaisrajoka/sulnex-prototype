@@ -84,6 +84,106 @@ const ptBR = {
     benefitLowerCostDesc: "Supabase free tier + Vercel free tier vs R$400+/mês em SaaS",
     benefitCustomUi: "UI Sem Limitações",
     benefitCustomUiDesc: "Interface totalmente personalizada sem restrições de componentes",
+
+    // No-Code Ceiling Section
+    noCodeCeilingTitle: "O Problema do Teto No-Code",
+    noCodeCeilingSubtitle: "Por que ferramentas no-code falham em escala",
+    ceilingPoint1Title: "Limite de 50.000 Registros no Airtable",
+    ceilingPoint1Desc: "Com 5.000 pacientes e ~10 agendamentos cada, voce atinge esse limite em meses. E um limite rigido - nao tem como contornar.",
+    ceilingPoint2Title: "Migracao ja Planejada",
+    ceilingPoint2Desc: "Seu proprio documento tecnico (v1.1) ja planeja migracao para PostgreSQL na \"Fase 4\" - isso significa que voce SABE que a stack no-code nao vai durar.",
+    ceilingPoint3Title: "Nos Pulamos Essa Migracao",
+    ceilingPoint3Desc: "Comecamos com PostgreSQL desde o Dia 1. Sem reconstrucao, sem migracao de dados, sem downtime.",
+
+    // Comparison Table Section
+    comparisonTitle: "Comparacao Completa: No-Code vs CRM Personalizado",
+    comparisonSubtitle: "Analise detalhada em 14 dimensoes criticas",
+    compFactor: "Fator",
+    compNoCode: "No-Code (Softr + Airtable + Make.com + n8n)",
+    compCustom: "CRM Personalizado (Next.js + Supabase + Vercel)",
+    compWinner: "Vencedor",
+
+    compRow1Factor: "Custo Mensal de Infraestrutura",
+    compRow1NoCode: "~R$700-750/mes ($130-140 USD) - Airtable $20, Softr $49, Make.com $9, VPS $50",
+    compRow1Custom: "~R$270-380/mes ($50-70 USD) - Supabase free tier, Vercel free tier, VPS $50",
+    compRow1Winner: "Personalizado (economiza ~R$400/mes)",
+
+    compRow2Factor: "Limite de Registros",
+    compRow2NoCode: "50.000 por tabela (limite rigido do Airtable)",
+    compRow2Custom: "Ilimitado (PostgreSQL escala para bilhoes)",
+    compRow2Winner: "Personalizado",
+
+    compRow3Factor: "Modelo de Seguranca de Dados",
+    compRow3NoCode: "Filtragem por visualizacao no Airtable + Visibilidade Condicional do Softr (lado do cliente)",
+    compRow3Custom: "Row-Level Security no nivel do banco de dados (lado do servidor, a prova de adulteracao)",
+    compRow3Winner: "Personalizado",
+
+    compRow4Factor: "Conformidade LGPD/GDPR",
+    compRow4NoCode: "Aplicacao manual em 3 plataformas",
+    compRow4Custom: "Aplicacao no nivel do banco de dados com triggers de auditoria",
+    compRow4Winner: "Personalizado",
+
+    compRow5Factor: "Flexibilidade de UI",
+    compRow5NoCode: "Limitado a biblioteca de componentes do Softr",
+    compRow5Custom: "Totalmente personalizado, pixel-perfect, qualquer design",
+    compRow5Winner: "Personalizado",
+
+    compRow6Factor: "Atualizacoes em Tempo Real",
+    compRow6NoCode: "Polling (atrasado, custa operacoes)",
+    compRow6Custom: "Supabase Realtime (WebSocket, instantaneo, gratuito)",
+    compRow6Winner: "Personalizado",
+
+    compRow7Factor: "Custo de Automacao em Escala",
+    compRow7NoCode: "Preco por operacao (Make.com cobra por execucao)",
+    compRow7Custom: "Custo marginal zero (API routes no Vercel)",
+    compRow7Winner: "Personalizado",
+
+    compRow8Factor: "Com 100 Clinicas",
+    compRow8NoCode: "~R$1.500-2.000/mes (tiers de escala)",
+    compRow8Custom: "~R$380-540/mes (mesma infraestrutura)",
+    compRow8Winner: "Personalizado",
+
+    compRow9Factor: "Com 500 Clinicas",
+    compRow9NoCode: "Migracao obrigatoria (limite do Airtable)",
+    compRow9Custom: "Nenhuma mudanca necessaria",
+    compRow9Winner: "Personalizado",
+
+    compRow10Factor: "Vendor Lock-in",
+    compRow10NoCode: "ALTO - preso ao Softr + Airtable + Make.com",
+    compRow10Custom: "ZERO - tudo open source (Next.js, Supabase, PostgreSQL)",
+    compRow10Winner: "Personalizado",
+
+    compRow11Factor: "Propriedade do Codigo",
+    compRow11NoCode: "Nenhum codigo proprio (configuracoes drag-and-drop)",
+    compRow11Custom: "100% do codigo-fonte no seu GitHub",
+    compRow11Winner: "Personalizado",
+
+    compRow12Factor: "Migracao PostgreSQL",
+    compRow12NoCode: "Necessaria na Fase 4 (seu doc v1.1)",
+    compRow12Custom: "Ja em PostgreSQL desde o Dia 1",
+    compRow12Winner: "Personalizado",
+
+    compRow13Factor: "Portabilidade de Desenvolvedores",
+    compRow13NoCode: "Preso a especialistas em Softr/Make.com",
+    compRow13Custom: "Qualquer desenvolvedor Next.js pode manter",
+    compRow13Winner: "Personalizado",
+
+    // Cost Projection Section
+    costProjectionTitle: "Projecao de Custo Total de Propriedade",
+    costProjectionSubtitle: "Comparacao de custos ao longo do tempo",
+    costYear1: "Ano 1 - Custo Total",
+    costYear2: "Ano 2 - Custo Adicional",
+    costNoCodeLabel: "No-Code",
+    costCustomLabel: "CRM Personalizado",
+    costYear1NoCode: "$5.500 (build) + $1.560-1.680 (12 meses x $130-140)",
+    costYear1NoCodeTotal: "$7.060 - $7.180",
+    costYear1Custom: "$5.914-7.293 (build) + $600-840 (12 meses x $50-70)",
+    costYear1CustomTotal: "$6.514 - $8.133",
+    costYear1Insight: "No Ano 1: custo aproximadamente igual. Mas o CRM Personalizado NAO tem teto, NAO precisa de migracao, e tem custos mensais MENORES.",
+    costYear2NoCode: "+ $1.560-1.680 (se ainda dentro dos limites) ou + $3.000-5.000 custo de migracao",
+    costYear2Custom: "+ $600-840 (mesmo custo)",
+    costYear2Insight: "CRM Personalizado economiza $960-840/ano no minimo, sem risco de migracao.",
+    costVsLabel: "vs",
   },
 
   // Reception page

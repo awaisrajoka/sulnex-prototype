@@ -84,6 +84,106 @@ const en = {
     benefitLowerCostDesc: "Supabase free tier + Vercel free tier vs $80+/month in SaaS fees",
     benefitCustomUi: "No UI Limitations",
     benefitCustomUiDesc: "Fully custom interface with no component restrictions",
+
+    // No-Code Ceiling Section
+    noCodeCeilingTitle: "The No-Code Ceiling Problem",
+    noCodeCeilingSubtitle: "Why no-code tools fail at scale",
+    ceilingPoint1Title: "Airtable's 50,000 Record Limit",
+    ceilingPoint1Desc: "At 5,000 patients with ~10 appointments each, you hit this in months. It's a hard cap - there's no workaround.",
+    ceilingPoint2Title: "Migration Already Planned",
+    ceilingPoint2Desc: "Your own technical doc (v1.1) already plans PostgreSQL migration in \"Phase 4\" - meaning you KNOW the no-code stack won't last.",
+    ceilingPoint3Title: "We Skip That Migration Entirely",
+    ceilingPoint3Desc: "We start with PostgreSQL on Day 1. No rebuild, no data migration, no downtime.",
+
+    // Comparison Table Section
+    comparisonTitle: "Full Comparison: No-Code vs Custom CRM",
+    comparisonSubtitle: "Detailed analysis across 14 critical dimensions",
+    compFactor: "Factor",
+    compNoCode: "No-Code (Softr + Airtable + Make.com + n8n)",
+    compCustom: "Custom CRM (Next.js + Supabase + Vercel)",
+    compWinner: "Winner",
+
+    compRow1Factor: "Monthly Infrastructure Cost",
+    compRow1NoCode: "~R$700-750/month ($130-140 USD) - Airtable $20, Softr $49, Make.com $9, VPS $50",
+    compRow1Custom: "~R$270-380/month ($50-70 USD) - Supabase free tier, Vercel free tier, VPS $50",
+    compRow1Winner: "Custom (saves ~R$400/month)",
+
+    compRow2Factor: "Record Limit",
+    compRow2NoCode: "50,000 per table (Airtable hard cap)",
+    compRow2Custom: "Unlimited (PostgreSQL scales to billions)",
+    compRow2Winner: "Custom",
+
+    compRow3Factor: "Data Security Model",
+    compRow3NoCode: "View-based filtering in Airtable + Softr Conditional Visibility (client-side)",
+    compRow3Custom: "Row-Level Security at database level (server-side, tamper-proof)",
+    compRow3Winner: "Custom",
+
+    compRow4Factor: "LGPD/GDPR Compliance",
+    compRow4NoCode: "Manual enforcement across 3 platforms",
+    compRow4Custom: "Database-level enforcement with audit triggers",
+    compRow4Winner: "Custom",
+
+    compRow5Factor: "UI Flexibility",
+    compRow5NoCode: "Limited to Softr's component library",
+    compRow5Custom: "Fully custom, pixel-perfect, any design",
+    compRow5Winner: "Custom",
+
+    compRow6Factor: "Real-time Updates",
+    compRow6NoCode: "Polling (delayed, costs operations)",
+    compRow6Custom: "Supabase Realtime (WebSocket, instant, free)",
+    compRow6Winner: "Custom",
+
+    compRow7Factor: "Automation Cost at Scale",
+    compRow7NoCode: "Per-operation pricing (Make.com charges per execution)",
+    compRow7Custom: "Zero marginal cost (API routes on Vercel)",
+    compRow7Winner: "Custom",
+
+    compRow8Factor: "At 100 Clinics",
+    compRow8NoCode: "~R$1,500-2,000/month (scaling tiers)",
+    compRow8Custom: "~R$380-540/month (same infrastructure)",
+    compRow8Winner: "Custom",
+
+    compRow9Factor: "At 500 Clinics",
+    compRow9NoCode: "Migration required (Airtable limit)",
+    compRow9Custom: "No change needed",
+    compRow9Winner: "Custom",
+
+    compRow10Factor: "Vendor Lock-in",
+    compRow10NoCode: "HIGH - locked into Softr + Airtable + Make.com",
+    compRow10Custom: "ZERO - all open source (Next.js, Supabase, PostgreSQL)",
+    compRow10Winner: "Custom",
+
+    compRow11Factor: "Code Ownership",
+    compRow11NoCode: "No code to own (drag-and-drop configs)",
+    compRow11Custom: "100% source code on your GitHub",
+    compRow11Winner: "Custom",
+
+    compRow12Factor: "PostgreSQL Migration",
+    compRow12NoCode: "Required in Phase 4 (your doc v1.1)",
+    compRow12Custom: "Already on PostgreSQL from Day 1",
+    compRow12Winner: "Custom",
+
+    compRow13Factor: "Developer Portability",
+    compRow13NoCode: "Tied to specialists in Softr/Make.com",
+    compRow13Custom: "Any Next.js developer can maintain",
+    compRow13Winner: "Custom",
+
+    // Cost Projection Section
+    costProjectionTitle: "Total Cost of Ownership Projection",
+    costProjectionSubtitle: "Cost comparison over time",
+    costYear1: "Year 1 - Total Cost",
+    costYear2: "Year 2 - Additional Cost",
+    costNoCodeLabel: "No-Code",
+    costCustomLabel: "Custom CRM",
+    costYear1NoCode: "$5,500 (build) + $1,560-1,680 (12 months x $130-140)",
+    costYear1NoCodeTotal: "$7,060 - $7,180",
+    costYear1Custom: "$5,914-7,293 (build) + $600-840 (12 months x $50-70)",
+    costYear1CustomTotal: "$6,514 - $8,133",
+    costYear1Insight: "At 12 months: roughly the same cost. But Custom CRM has NO ceiling, NO migration needed, and LOWER ongoing costs.",
+    costYear2NoCode: "+ $1,560-1,680 (if still under limits) or + $3,000-5,000 migration cost",
+    costYear2Custom: "+ $600-840 (same)",
+    costYear2Insight: "Custom CRM saves $960-840/year minimum, with no migration risk.",
+    costVsLabel: "vs",
   },
 
   // Reception page
