@@ -153,11 +153,11 @@ export default function AutomacoesPage() {
           </h2>
           <div className="grid sm:grid-cols-5 gap-4 items-center">
             {[
-              { name: "Next.js 14", desc: "Frontend + API", color: "bg-slate-700" },
-              { name: "Supabase", desc: "PostgreSQL + RLS", color: "bg-green-700" },
-              { name: "n8n", desc: t("automacoes.orchestration"), color: "bg-orange-700" },
-              { name: "WhatsApp API", desc: t("automacoes.communication"), color: "bg-emerald-700" },
-              { name: "Prefeitura SP", desc: "NFS-e", color: "bg-purple-700" },
+              { name: "Next.js 14", desc: "Frontend + API Routes", color: "bg-slate-700" },
+              { name: "Supabase", desc: "PostgreSQL + Auth + RLS", color: "bg-green-700" },
+              { name: "Evolution API", desc: "WhatsApp", color: "bg-emerald-700" },
+              { name: "PlugNotas", desc: "NFS-e", color: "bg-purple-700" },
+              { name: "Vercel", desc: "Hosting + Edge", color: "bg-blue-700" },
             ].map((tech, idx) => (
               <div key={tech.name} className="flex items-center gap-2">
                 <div className={`${tech.color} rounded-xl p-4 w-full text-center`}>

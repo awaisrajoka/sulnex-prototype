@@ -14,6 +14,12 @@ import {
   Zap,
   Globe,
   Lock,
+  Infinity,
+  Shield,
+  Radio,
+  Unlink,
+  BadgeDollarSign,
+  Paintbrush,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useI18n } from "@/i18n/context";
@@ -210,12 +216,12 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: "Next.js 14", desc: t("landing.frontend") },
-              { name: "Supabase", desc: "Database + Auth" },
-              { name: "n8n", desc: t("landing.automation") },
-              { name: "WhatsApp API", desc: t("landing.communication") },
-              { name: "Tailwind CSS", desc: t("landing.designSystem") },
+              { name: "Next.js 14", desc: t("landing.frontend") + " + API" },
+              { name: "Supabase", desc: "PostgreSQL + Auth + RLS" },
+              { name: "Evolution API", desc: t("landing.communication") },
               { name: "Vercel", desc: t("landing.deploy") },
+              { name: "Tailwind CSS", desc: t("landing.designSystem") },
+              { name: "Supabase Realtime", desc: "WebSockets" },
             ].map((tech) => (
               <div key={tech.name} className="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
                 <div className="font-semibold text-slate-900 text-sm">{tech.name}</div>
@@ -223,6 +229,37 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Why Custom CRM */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-10">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">{t("landing.whyCustomTitle")}</h3>
+          <p className="text-slate-500 text-sm max-w-xl mx-auto">{t("landing.whyCustomDesc")}</p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[
+            { icon: Infinity, title: t("landing.benefitNoLimits"), desc: t("landing.benefitNoLimitsDesc"), color: "text-blue-600 bg-blue-50" },
+            { icon: Shield, title: t("landing.benefitRealRls"), desc: t("landing.benefitRealRlsDesc"), color: "text-green-600 bg-green-50" },
+            { icon: Radio, title: t("landing.benefitRealtime"), desc: t("landing.benefitRealtimeDesc"), color: "text-purple-600 bg-purple-50" },
+            { icon: Unlink, title: t("landing.benefitNoVendorLock"), desc: t("landing.benefitNoVendorLockDesc"), color: "text-orange-600 bg-orange-50" },
+            { icon: BadgeDollarSign, title: t("landing.benefitLowerCost"), desc: t("landing.benefitLowerCostDesc"), color: "text-emerald-600 bg-emerald-50" },
+            { icon: Paintbrush, title: t("landing.benefitCustomUi"), desc: t("landing.benefitCustomUiDesc"), color: "text-pink-600 bg-pink-50" },
+          ].map((benefit) => {
+            const Icon = benefit.icon;
+            return (
+              <div key={benefit.title} className="flex items-start gap-4 bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${benefit.color}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 text-sm mb-1">{benefit.title}</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">{benefit.desc}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

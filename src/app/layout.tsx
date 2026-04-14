@@ -4,7 +4,7 @@ import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Sulnex - Escritório Virtual para Clínicas",
-  description: "Plataforma inteligente de gestão clínica com automação via WhatsApp e n8n",
+  description: "CRM personalizado para gestão clínica com automação via WhatsApp, Next.js e Supabase",
 };
 
 export default function RootLayout({
