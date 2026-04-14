@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { databaseTables } from "@/lib/data";
+import { useI18n } from "@/i18n/context";
 import {
   Database,
   Table2,
@@ -13,16 +14,17 @@ import {
   Hash,
 } from "lucide-react";
 
-const phaseConfig: Record<number, { label: string; color: string; bgColor: string; borderColor: string; description: string }> = {
-  1: { label: "MVP - Fase 1", color: "text-green-700", bgColor: "bg-green-50", borderColor: "border-green-200", description: "8 tabelas essenciais para operação" },
-  2: { label: "Fase 2", color: "text-amber-700", bgColor: "bg-amber-50", borderColor: "border-amber-200", description: "9 tabelas para funcionalidades avançadas" },
-  3: { label: "Fase 3", color: "text-slate-500", bgColor: "bg-slate-50", borderColor: "border-slate-200", description: "3 tabelas para NPS e retenção" },
-};
-
 const groups = Array.from(new Set(databaseTables.map((t) => t.group)));
 
 export default function EsquemaPage() {
-  const totalRecords = databaseTables.reduce((sum, t) => sum + t.records, 0);
+  const { t } = useI18n();
+  const totalRecords = databaseTables.reduce((sum, tbl) => sum + tbl.records, 0);
+
+  const phaseConfig: Record<number, { label: string; color: string; bgColor: string; borderColor: string; description: string }> = {
+    1: { label: t("esquema.mvpPhase1"), color: "text-green-700", bgColor: "bg-green-50", borderColor: "border-green-200", description: t("esquema.phase1Desc") },
+    2: { label: t("esquema.phase2"), color: "text-amber-700", bgColor: "bg-amber-50", borderColor: "border-amber-200", description: t("esquema.phase2Desc") },
+    3: { label: t("esquema.phase3"), color: "text-slate-500", bgColor: "bg-slate-50", borderColor: "border-slate-200", description: t("esquema.phase3Desc") },
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -32,22 +34,21 @@ export default function EsquemaPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 border border-slate-200 rounded-full text-xs font-medium text-slate-600 mb-4">
             <Database className="w-3.5 h-3.5" />
-            Esquema do Banco de Dados
+            {t("esquema.headerBadge")}
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">20 Tabelas PostgreSQL</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{t("esquema.pageTitle")}</h1>
           <p className="text-slate-500 max-w-2xl mx-auto">
-            Estrutura completa do banco de dados com isolamento multi-tenant via org_id
-            e Row Level Security no Supabase.
+            {t("esquema.pageDescription")}
           </p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { label: "Total Tabelas", value: "20", icon: Table2 },
-            { label: "Registros Simulados", value: totalRecords.toLocaleString("pt-BR"), icon: Hash },
-            { label: "Padrão de Isolamento", value: "org_id", icon: Lock },
-            { label: "Grupos", value: groups.length.toString(), icon: Layers },
+            { label: t("esquema.totalTables"), value: "20", icon: Table2 },
+            { label: t("esquema.simulatedRecords"), value: totalRecords.toLocaleString("pt-BR"), icon: Hash },
+            { label: t("esquema.isolationPattern"), value: "org_id", icon: Lock },
+            { label: t("esquema.groups"), value: groups.length.toString(), icon: Layers },
           ].map((stat) => {
             const Icon = stat.icon;
             return (
@@ -67,11 +68,9 @@ export default function EsquemaPage() {
               <Shield className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-bold text-lg mb-1">Padrão org_id - Isolamento Multi-Tenant</h3>
+              <h3 className="font-bold text-lg mb-1">{t("esquema.orgIdTitle")}</h3>
               <p className="text-blue-100 text-sm leading-relaxed mb-3">
-                Cada tabela possui a coluna <code className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-mono">org_id UUID NOT NULL REFERENCES organizations(id)</code>.
-                O Supabase aplica Row Level Security (RLS) para garantir que cada organização
-                só acesse seus próprios dados.
+                {t("esquema.orgIdDescription")} <code className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-mono">org_id UUID NOT NULL REFERENCES organizations(id)</code>{t("esquema.orgIdDescCont")}
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 bg-white/10 rounded text-xs font-mono">Org A: Clínica Bem Estar</span>
@@ -84,7 +83,7 @@ export default function EsquemaPage() {
         {/* Phase Legend */}
         <div className="flex flex-wrap gap-4 mb-6">
           {Object.entries(phaseConfig).map(([phase, config]) => {
-            const count = databaseTables.filter((t) => t.phase === Number(phase)).length;
+            const count = databaseTables.filter((tbl) => tbl.phase === Number(phase)).length;
             return (
               <div
                 key={phase}
@@ -94,7 +93,7 @@ export default function EsquemaPage() {
                   phase === "1" ? "bg-green-500" : phase === "2" ? "bg-amber-500" : "bg-slate-400"
                 }`} />
                 <span className={`text-sm font-medium ${config.color}`}>
-                  {config.label} ({count} tabelas)
+                  {config.label} ({count} {t("esquema.tables")})
                 </span>
               </div>
             );
@@ -104,15 +103,15 @@ export default function EsquemaPage() {
         {/* Tables by Group */}
         <div className="space-y-6">
           {groups.map((group) => {
-            const groupTables = databaseTables.filter((t) => t.group === group);
+            const groupTables = databaseTables.filter((tbl) => tbl.group === group);
             return (
               <div key={group} className="bg-white rounded-xl border border-slate-200 shadow-sm">
                 <div className="p-5 border-b border-slate-100">
                   <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                     <Layers className="w-4 h-4 text-slate-500" />
-                    {group}
+                    {t(`schemaGroup.${group}`)}
                     <span className="ml-2 px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full text-xs">
-                      {groupTables.length} tabelas
+                      {groupTables.length} {t("esquema.tables")}
                     </span>
                   </h2>
                 </div>
@@ -135,7 +134,7 @@ export default function EsquemaPage() {
                                 {phase.label}
                               </span>
                             </div>
-                            <p className="text-xs text-slate-500 mt-0.5">{table.description}</p>
+                            <p className="text-xs text-slate-500 mt-0.5">{t(`tableDesc.${table.name}`)}</p>
                           </div>
 
                           {/* Records */}
@@ -143,7 +142,7 @@ export default function EsquemaPage() {
                             <div className="text-sm font-mono font-semibold text-slate-900">
                               {table.records > 0 ? table.records.toLocaleString("pt-BR") : "-"}
                             </div>
-                            <div className="text-[10px] text-slate-400">registros</div>
+                            <div className="text-[10px] text-slate-400">{t("esquema.records")}</div>
                           </div>
 
                           {/* org_id indicator */}
@@ -165,7 +164,7 @@ export default function EsquemaPage() {
         <div className="mt-8 bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <h2 className="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
             <Link2 className="w-5 h-5 text-slate-500" />
-            Relacionamentos Principais
+            {t("esquema.relationships")}
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[

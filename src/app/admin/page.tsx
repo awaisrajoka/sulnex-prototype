@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
 import { staffMembers, automationLogs, monthlyRevenue } from "@/lib/data";
+import { useI18n } from "@/i18n/context";
 import {
   LayoutDashboard,
   Users2,
@@ -27,45 +28,46 @@ import {
   CreditCard,
 } from "lucide-react";
 
-const sidebarItems = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Equipe", href: "/admin", icon: Users2 },
-  { name: "Financeiro", href: "/admin", icon: DollarSign },
-  { name: "WhatsApp", href: "/admin", icon: MessageSquare },
-  { name: "Automações", href: "/admin", icon: Workflow },
-  { name: "Configurações", href: "/admin", icon: Settings },
-];
-
-const metricCards = [
-  { label: "Total Pacientes", value: "847", change: "+23 este mês", icon: Users2, color: "text-blue-600 bg-blue-50" },
-  { label: "Consultas Hoje", value: "23", change: "8 confirmadas", icon: CalendarCheck, color: "text-teal-600 bg-teal-50" },
-  { label: "Taxa de Confirmação", value: "94.2%", change: "+2.1% vs mês anterior", icon: CheckCircle, color: "text-green-600 bg-green-50" },
-  { label: "Receita Mensal", value: "R$ 47.850", change: "+8% vs março", icon: Banknote, color: "text-purple-600 bg-purple-50" },
-];
-
-const operationalAlerts = [
-  { type: "warning", icon: XCircle, message: "3 cancelamentos tardios hoje (< 24h)", time: "Hoje" },
-  { type: "error", icon: AlertCircle, message: "2 no-shows registrados (Maria Rosa, Pedro Alves)", time: "Hoje" },
-  { type: "info", icon: CreditCard, message: "5 pagamentos pendentes totalizando R$ 1.750", time: "Esta semana" },
-];
-
 export default function AdminPage() {
+  const { t } = useI18n();
   const maxRevenue = Math.max(...monthlyRevenue.map((r) => r.value));
+
+  const sidebarItems = [
+    { name: t("admin.dashboard"), href: "/admin", icon: LayoutDashboard },
+    { name: t("admin.team"), href: "/admin", icon: Users2 },
+    { name: t("admin.financial"), href: "/admin", icon: DollarSign },
+    { name: t("admin.whatsapp"), href: "/admin", icon: MessageSquare },
+    { name: t("admin.automations"), href: "/admin", icon: Workflow },
+    { name: t("admin.settings"), href: "/admin", icon: Settings },
+  ];
+
+  const metricCards = [
+    { label: t("admin.totalPatients"), value: "847", change: t("admin.changeThisMonth"), icon: Users2, color: "text-blue-600 bg-blue-50" },
+    { label: t("admin.todayAppointments"), value: "23", change: t("admin.changeConfirmed"), icon: CalendarCheck, color: "text-teal-600 bg-teal-50" },
+    { label: t("admin.confirmationRate"), value: "94.2%", change: t("admin.changeVsLastMonth"), icon: CheckCircle, color: "text-green-600 bg-green-50" },
+    { label: t("admin.monthlyRevenue"), value: "R$ 47.850", change: t("admin.changeVsMarch"), icon: Banknote, color: "text-purple-600 bg-purple-50" },
+  ];
+
+  const operationalAlerts = [
+    { type: "warning", icon: XCircle, message: t("admin.alertLateCancellations"), time: t("admin.today") },
+    { type: "error", icon: AlertCircle, message: t("admin.alertNoShows"), time: t("admin.today") },
+    { type: "info", icon: CreditCard, message: t("admin.alertPendingPayments"), time: t("admin.thisWeek") },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       <div className="flex flex-1">
-        <Sidebar items={sidebarItems} title="Administração" accentColor="bg-purple-600" />
+        <Sidebar items={sidebarItems} title={t("admin.sidebarTitle")} accentColor="bg-purple-600" />
         <main className="flex-1 p-6 lg:p-8 overflow-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">Painel Administrativo</h1>
-              <p className="text-sm text-slate-500">Clínica Bem Estar - Visão Geral</p>
+              <h1 className="text-2xl font-bold text-slate-900">{t("admin.pageTitle")}</h1>
+              <p className="text-sm text-slate-500">{t("admin.subtitle")}</p>
             </div>
             <div className="px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-full text-xs font-medium text-amber-700">
-              Protótipo - Dados Simulados
+              {t("admin.prototypeBadge")}
             </div>
           </div>
 
@@ -100,13 +102,13 @@ export default function AdminPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <MessageSquare className="w-4 h-4 text-green-600" />
-                  WhatsApp Business
+                  {t("admin.whatsappBusiness")}
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="p-4 bg-green-50 rounded-lg border border-green-100">
                     <div className="flex items-center gap-2 mb-2">
                       <Wifi className="w-4 h-4 text-green-600" />
-                      <span className="text-xs font-medium text-green-700">Conectado</span>
+                      <span className="text-xs font-medium text-green-700">{t("admin.connected")}</span>
                       <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse ml-auto" />
                     </div>
                     <div className="text-sm font-mono text-green-800">+55 (11) 3456-7890</div>
@@ -115,18 +117,18 @@ export default function AdminPage() {
                   <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
                     <div className="flex items-center gap-2 mb-2">
                       <Send className="w-4 h-4 text-blue-600" />
-                      <span className="text-xs font-medium text-blue-700">Msgs Enviadas Hoje</span>
+                      <span className="text-xs font-medium text-blue-700">{t("admin.msgsSentToday")}</span>
                     </div>
                     <div className="text-2xl font-bold text-blue-800">47</div>
-                    <div className="text-xs text-blue-600 mt-1">Confirmações + Lembretes</div>
+                    <div className="text-xs text-blue-600 mt-1">{t("admin.confirmationsReminders")}</div>
                   </div>
                   <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
                     <div className="flex items-center gap-2 mb-2">
                       <BarChart3 className="w-4 h-4 text-purple-600" />
-                      <span className="text-xs font-medium text-purple-700">Taxa de Entrega</span>
+                      <span className="text-xs font-medium text-purple-700">{t("admin.deliveryRate")}</span>
                     </div>
                     <div className="text-2xl font-bold text-purple-800">98.4%</div>
-                    <div className="text-xs text-purple-600 mt-1">Últimos 30 dias</div>
+                    <div className="text-xs text-purple-600 mt-1">{t("admin.last30Days")}</div>
                   </div>
                 </div>
               </div>
@@ -136,18 +138,18 @@ export default function AdminPage() {
                 <div className="p-5 border-b border-slate-100">
                   <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                     <Users2 className="w-4 h-4 text-purple-600" />
-                    Equipe
+                    {t("admin.teamTitle")}
                   </h2>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                        <th className="px-5 py-3">Nome</th>
-                        <th className="px-5 py-3">Cargo</th>
-                        <th className="px-5 py-3">Email</th>
-                        <th className="px-5 py-3">Último Acesso</th>
-                        <th className="px-5 py-3">Status</th>
+                        <th className="px-5 py-3">{t("admin.thName")}</th>
+                        <th className="px-5 py-3">{t("admin.thRole")}</th>
+                        <th className="px-5 py-3">{t("admin.thEmail")}</th>
+                        <th className="px-5 py-3">{t("admin.thLastLogin")}</th>
+                        <th className="px-5 py-3">{t("admin.thStatus")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
@@ -178,7 +180,7 @@ export default function AdminPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-6">
                   <BarChart3 className="w-4 h-4 text-purple-600" />
-                  Receita Mensal (R$)
+                  {t("admin.revenueChart")}
                 </h2>
                 <div className="flex items-end gap-3 h-48">
                   {monthlyRevenue.map((m) => (
@@ -203,7 +205,7 @@ export default function AdminPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
-                  Alertas Operacionais
+                  {t("admin.operationalAlerts")}
                 </h2>
                 <div className="space-y-3">
                   {operationalAlerts.map((alert, idx) => {
@@ -235,7 +237,7 @@ export default function AdminPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <Zap className="w-4 h-4 text-orange-500" />
-                  Atividade de Automação
+                  {t("admin.automationActivity")}
                 </h2>
                 <div className="space-y-2">
                   {automationLogs.slice(0, 6).map((log) => (
@@ -255,7 +257,7 @@ export default function AdminPage() {
                   ))}
                 </div>
                 <button className="w-full mt-3 py-2 text-xs font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                  Ver Todos os Logs
+                  {t("admin.viewAllLogs")}
                 </button>
               </div>
             </div>

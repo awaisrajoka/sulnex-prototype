@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Sulnex - Escritório Virtual para Clínicas",
@@ -14,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="antialiased bg-white text-slate-900 min-h-screen">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

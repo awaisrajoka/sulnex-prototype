@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { whatsappTemplates } from "@/lib/data";
+import { useI18n } from "@/i18n/context";
 import {
   MessageCircle,
   CheckCheck,
@@ -15,52 +16,7 @@ import {
   Router,
 } from "lucide-react";
 
-const flowSteps = [
-  {
-    step: 1,
-    label: "Agendamento",
-    description: "Paciente agenda consulta (portal ou WhatsApp)",
-    icon: "calendar",
-    color: "bg-blue-500",
-  },
-  {
-    step: 2,
-    label: "Confirmação",
-    description: "Sistema envia confirmação automática",
-    icon: "send",
-    color: "bg-green-500",
-  },
-  {
-    step: 3,
-    label: "Lembrete 48h",
-    description: "Lembrete enviado 48 horas antes",
-    icon: "clock",
-    color: "bg-yellow-500",
-  },
-  {
-    step: 4,
-    label: "Lembrete 24h",
-    description: "Lembrete final com instrução de CHEGUEI",
-    icon: "alert",
-    color: "bg-orange-500",
-  },
-  {
-    step: 5,
-    label: "Confirma",
-    description: 'Paciente responde "1" para confirmar',
-    icon: "check",
-    color: "bg-teal-500",
-  },
-  {
-    step: 6,
-    label: "Check-in",
-    description: 'Paciente envia "CHEGUEI" na recepção',
-    icon: "checkin",
-    color: "bg-emerald-500",
-  },
-];
-
-// Phone mockup messages for the conversation demo
+// Phone mockup messages for the conversation demo (stays in Portuguese - real demo data)
 const conversationMessages = [
   { from: "system", text: "Olá Maria! Sua consulta está confirmada:\n14/04/2026 às 08:00\nDr. Rafael Mendes\nClínica Bem Estar\n\nResponda:\n1 - Confirmar\n2 - Reagendar\n3 - Cancelar", time: "12/04 10:30", status: "read" },
   { from: "patient", text: "1", time: "12/04 10:32", status: "read" },
@@ -73,6 +29,16 @@ const conversationMessages = [
 
 export default function WhatsappPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(0);
+  const { t } = useI18n();
+
+  const flowSteps = [
+    { step: 1, label: t("whatsapp.step1Label"), description: t("whatsapp.step1Desc"), color: "bg-blue-500" },
+    { step: 2, label: t("whatsapp.step2Label"), description: t("whatsapp.step2Desc"), color: "bg-green-500" },
+    { step: 3, label: t("whatsapp.step3Label"), description: t("whatsapp.step3Desc"), color: "bg-yellow-500" },
+    { step: 4, label: t("whatsapp.step4Label"), description: t("whatsapp.step4Desc"), color: "bg-orange-500" },
+    { step: 5, label: t("whatsapp.step5Label"), description: t("whatsapp.step5Desc"), color: "bg-teal-500" },
+    { step: 6, label: t("whatsapp.step6Label"), description: t("whatsapp.step6Desc"), color: "bg-emerald-500" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -82,12 +48,11 @@ export default function WhatsappPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 border border-green-200 rounded-full text-xs font-medium text-green-700 mb-4">
             <MessageCircle className="w-3.5 h-3.5" />
-            WhatsApp Business API
+            {t("whatsapp.headerBadge")}
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Fluxo de Automação WhatsApp</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{t("whatsapp.pageTitle")}</h1>
           <p className="text-slate-500 max-w-2xl mx-auto">
-            Visualização completa do ciclo automatizado de comunicação com pacientes,
-            do agendamento ao check-in na clínica.
+            {t("whatsapp.pageDescription")}
           </p>
         </div>
 
@@ -95,7 +60,7 @@ export default function WhatsappPage() {
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-8">
           <h2 className="font-semibold text-lg text-slate-900 mb-6 flex items-center gap-2">
             <Zap className="w-5 h-5 text-green-600" />
-            Jornada Automatizada do Paciente
+            {t("whatsapp.patientJourney")}
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-2 lg:gap-0">
             {flowSteps.map((step, idx) => (
@@ -121,7 +86,7 @@ export default function WhatsappPage() {
             <div className="w-80">
               <h2 className="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
                 <Smartphone className="w-5 h-5 text-green-600" />
-                Conversa Simulada
+                {t("whatsapp.simulatedConversation")}
               </h2>
               <div className="bg-slate-900 rounded-[2.5rem] p-3 shadow-2xl">
                 <div className="bg-[#ECE5DD] rounded-[2rem] overflow-hidden">
@@ -176,20 +141,19 @@ export default function WhatsappPage() {
                   <Router className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">MSG-ROUTER</h3>
-                  <p className="text-green-100 text-xs">Roteador Inteligente de Mensagens</p>
+                  <h3 className="font-bold text-lg">{t("whatsapp.msgRouterTitle")}</h3>
+                  <p className="text-green-100 text-xs">{t("whatsapp.msgRouterSubtitle")}</p>
                 </div>
               </div>
               <p className="text-sm text-green-100 mb-4 leading-relaxed">
-                O MSG-ROUTER é o componente central que recebe todas as mensagens de entrada,
-                classifica a intenção do paciente e encaminha para o fluxo n8n correto automaticamente.
+                {t("whatsapp.msgRouterDescription")}
               </p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "Entrada", desc: "Webhook WhatsApp" },
-                  { label: "Classificação", desc: "Regex + Keywords" },
-                  { label: "Roteamento", desc: "8 fluxos n8n" },
-                  { label: "Fallback", desc: "Fila humana" },
+                  { label: t("whatsapp.entryLabel"), desc: t("whatsapp.entryDesc") },
+                  { label: t("whatsapp.classificationLabel"), desc: t("whatsapp.classificationDesc") },
+                  { label: t("whatsapp.routingLabel"), desc: t("whatsapp.routingDesc") },
+                  { label: t("whatsapp.fallbackLabel"), desc: t("whatsapp.fallbackDesc") },
                 ].map((item) => (
                   <div key={item.label} className="bg-white/10 rounded-lg p-3">
                     <div className="text-xs font-semibold">{item.label}</div>
@@ -204,7 +168,7 @@ export default function WhatsappPage() {
               <div className="p-5 border-b border-slate-100">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                   <Send className="w-4 h-4 text-green-600" />
-                  8 Templates de Mensagem
+                  {t("whatsapp.messageTemplates")}
                 </h2>
               </div>
               <div className="divide-y divide-slate-50">
@@ -219,7 +183,7 @@ export default function WhatsappPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="text-sm font-medium text-slate-900">{tmpl.name}</div>
-                        <div className="text-xs text-slate-400 mt-0.5">Gatilho: {tmpl.trigger}</div>
+                        <div className="text-xs text-slate-400 mt-0.5">{t("whatsapp.triggerLabel")}: {tmpl.trigger}</div>
                       </div>
                       <ArrowRight className="w-4 h-4 text-slate-300" />
                     </div>
@@ -232,7 +196,7 @@ export default function WhatsappPage() {
             {whatsappTemplates[selectedTemplate] && (
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h3 className="font-semibold text-sm text-slate-900 mb-3">
-                  Preview: {whatsappTemplates[selectedTemplate].name}
+                  {t("whatsapp.previewLabel")}: {whatsappTemplates[selectedTemplate].name}
                 </h3>
                 <div className="bg-[#ECE5DD] rounded-lg p-4">
                   <div className="bg-white rounded-lg px-3 py-2 max-w-[90%] shadow-sm">

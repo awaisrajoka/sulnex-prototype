@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
 import { appointments, waitlist, recentCheckins } from "@/lib/data";
+import { useI18n } from "@/i18n/context";
 import {
   LayoutDashboard,
   CalendarPlus,
@@ -20,18 +21,19 @@ import {
   Wifi,
 } from "lucide-react";
 
-const sidebarItems = [
-  { name: "Dashboard", href: "/recepcao", icon: LayoutDashboard },
-  { name: "Agendar", href: "/recepcao", icon: CalendarPlus },
-  { name: "Pacientes", href: "/recepcao", icon: Users },
-  { name: "Lista de Espera", href: "/recepcao", icon: ListOrdered },
-  { name: "Check-in", href: "/recepcao", icon: LogIn },
-];
-
 export default function RecepcaoPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const { t } = useI18n();
+
+  const sidebarItems = [
+    { name: t("recepcao.dashboard"), href: "/recepcao", icon: LayoutDashboard },
+    { name: t("recepcao.schedule"), href: "/recepcao", icon: CalendarPlus },
+    { name: t("recepcao.patients"), href: "/recepcao", icon: Users },
+    { name: t("recepcao.waitlist"), href: "/recepcao", icon: ListOrdered },
+    { name: t("recepcao.checkin"), href: "/recepcao", icon: LogIn },
+  ];
 
   const filteredAppointments = appointments.filter(
     (a) =>
@@ -43,18 +45,18 @@ export default function RecepcaoPage() {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       <div className="flex flex-1">
-        <Sidebar items={sidebarItems} title="Recepção" accentColor="bg-blue-600" />
+        <Sidebar items={sidebarItems} title={t("recepcao.sidebarTitle")} accentColor="bg-blue-600" />
         <main className="flex-1 p-6 lg:p-8 overflow-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">Portal da Recepção</h1>
+              <h1 className="text-2xl font-bold text-slate-900">{t("recepcao.pageTitle")}</h1>
               <p className="text-sm text-slate-500">Clínica Bem Estar - 14/04/2026</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 border border-green-200 rounded-full">
                 <Wifi className="w-3.5 h-3.5 text-green-600" />
-                <span className="text-xs font-medium text-green-700">WhatsApp Conectado</span>
+                <span className="text-xs font-medium text-green-700">{t("recepcao.whatsappConnected")}</span>
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               </div>
             </div>
@@ -69,7 +71,7 @@ export default function RecepcaoPage() {
                   <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                       <Clock className="w-4 h-4 text-blue-600" />
-                      Consultas de Hoje
+                      {t("recepcao.todayAppointments")}
                       <span className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
                         {appointments.length}
                       </span>
@@ -78,7 +80,7 @@ export default function RecepcaoPage() {
                       <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        placeholder="Buscar paciente ou CPF..."
+                        placeholder={t("recepcao.searchPlaceholder")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 w-64"
@@ -90,12 +92,12 @@ export default function RecepcaoPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
-                        <th className="px-5 py-3">Horário</th>
-                        <th className="px-5 py-3">Paciente</th>
-                        <th className="px-5 py-3">CPF</th>
-                        <th className="px-5 py-3">Médico</th>
-                        <th className="px-5 py-3">Tipo</th>
-                        <th className="px-5 py-3">Status</th>
+                        <th className="px-5 py-3">{t("recepcao.thTime")}</th>
+                        <th className="px-5 py-3">{t("recepcao.thPatient")}</th>
+                        <th className="px-5 py-3">{t("recepcao.thCpf")}</th>
+                        <th className="px-5 py-3">{t("recepcao.thDoctor")}</th>
+                        <th className="px-5 py-3">{t("recepcao.thType")}</th>
+                        <th className="px-5 py-3">{t("recepcao.thStatus")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
@@ -132,56 +134,56 @@ export default function RecepcaoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <CalendarPlus className="w-4 h-4 text-blue-600" />
-                  Agendamento Rápido
+                  {t("recepcao.quickScheduling")}
                 </h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1.5">Paciente</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-1.5">{t("recepcao.labelPatient")}</label>
                     <div className="relative">
                       <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
-                        placeholder="Buscar paciente..."
+                        placeholder={t("recepcao.searchPatient")}
                         className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1.5">Médico</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-1.5">{t("recepcao.labelDoctor")}</label>
                     <select
                       value={selectedDoctor}
                       onChange={(e) => setSelectedDoctor(e.target.value)}
                       className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white"
                     >
-                      <option value="">Selecionar...</option>
+                      <option value="">{t("recepcao.selectOption")}</option>
                       <option value="rafael">Dr. Rafael Mendes</option>
                       <option value="camila">Dra. Camila Rodrigues</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1.5">Data / Hora</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-1.5">{t("recepcao.labelDateTime")}</label>
                     <input
                       type="datetime-local"
                       className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-500 mb-1.5">Tipo</label>
+                    <label className="block text-xs font-medium text-slate-500 mb-1.5">{t("recepcao.labelType")}</label>
                     <select
                       value={selectedType}
                       onChange={(e) => setSelectedType(e.target.value)}
                       className="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white"
                     >
-                      <option value="">Selecionar...</option>
-                      <option value="primeira_consulta">Primeira Consulta</option>
-                      <option value="retorno">Retorno</option>
-                      <option value="procedimento">Procedimento</option>
+                      <option value="">{t("recepcao.selectOption")}</option>
+                      <option value="primeira_consulta">{t("recepcao.firstConsultation")}</option>
+                      <option value="retorno">{t("recepcao.returnVisit")}</option>
+                      <option value="procedimento">{t("recepcao.procedure")}</option>
                     </select>
                   </div>
                 </div>
                 <div className="mt-4 flex justify-end">
                   <button className="px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
-                    Agendar Consulta
+                    {t("recepcao.scheduleAppointment")}
                   </button>
                 </div>
               </div>
@@ -193,7 +195,7 @@ export default function RecepcaoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
-                  Check-ins Recentes
+                  {t("recepcao.recentCheckins")}
                 </h2>
                 <div className="space-y-3">
                   {recentCheckins.map((ci, idx) => (
@@ -218,7 +220,7 @@ export default function RecepcaoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <ListOrdered className="w-4 h-4 text-orange-600" />
-                  Lista de Espera
+                  {t("recepcao.waitlistTitle")}
                   <span className="ml-auto px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full text-xs font-medium">
                     {waitlist.length}
                   </span>
@@ -235,13 +237,13 @@ export default function RecepcaoPage() {
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm text-slate-900">{w.patient}</div>
                         <div className="text-xs text-slate-500">{w.requestedDoctor}</div>
-                        <div className="text-xs text-slate-400 mt-0.5">{w.type} - desde {w.since}</div>
+                        <div className="text-xs text-slate-400 mt-0.5">{w.type} - {t("recepcao.since")} {w.since}</div>
                       </div>
                     </div>
                   ))}
                 </div>
                 <button className="w-full mt-3 py-2 text-sm font-medium text-orange-600 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
-                  Gerenciar Lista
+                  {t("recepcao.manageList")}
                 </button>
               </div>
             </div>

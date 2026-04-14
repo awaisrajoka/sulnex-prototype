@@ -4,20 +4,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, ChevronDown, Stethoscope } from "lucide-react";
+import { useI18n } from "@/i18n/context";
 
-const portals = [
-  { name: "Recepção", href: "/recepcao", color: "text-blue-600" },
-  { name: "Médico", href: "/medico", color: "text-teal-600" },
-  { name: "Admin", href: "/admin", color: "text-purple-600" },
-  { name: "WhatsApp", href: "/whatsapp", color: "text-green-600" },
-  { name: "Automações", href: "/automacoes", color: "text-orange-600" },
-  { name: "Esquema BD", href: "/esquema", color: "text-slate-600" },
+const portalKeys = [
+  { key: "recepcao", href: "/recepcao", color: "text-blue-600" },
+  { key: "medico", href: "/medico", color: "text-teal-600" },
+  { key: "admin", href: "/admin", color: "text-purple-600" },
+  { key: "whatsapp", href: "/whatsapp", color: "text-green-600" },
+  { key: "automacoes", href: "/automacoes", color: "text-orange-600" },
+  { key: "esquema", href: "/esquema", color: "text-slate-600" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { language, setLanguage, t } = useI18n();
+
+  const portals = portalKeys.map((p) => ({
+    ...p,
+    name: t(`nav.${p.key}`),
+  }));
 
   const currentPortal = portals.find((p) => pathname.startsWith(p.href));
 
@@ -35,14 +42,14 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Portal Selector Dropdown */}
+          {/* Portal Selector Dropdown + Language Toggle */}
           <div className="hidden md:flex items-center gap-4">
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors text-sm font-medium text-slate-700"
               >
-                {currentPortal ? currentPortal.name : "Selecionar Portal"}
+                {currentPortal ? currentPortal.name : t("nav.selectPortal")}
                 <ChevronDown className="w-4 h-4" />
               </button>
               {dropdownOpen && (
@@ -64,9 +71,34 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+
+            {/* Language Toggle */}
+            <div className="flex items-center bg-slate-100 rounded-full p-0.5">
+              <button
+                onClick={() => setLanguage("pt-BR")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  language === "pt-BR"
+                    ? "bg-white text-primary-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                PT
+              </button>
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  language === "en"
+                    ? "bg-white text-primary-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
             {/* Prototype Badge */}
             <div className="px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-xs font-medium text-amber-700">
-              Protótipo - Dados Simulados
+              {t("nav.prototypeBadge")}
             </div>
           </div>
 
@@ -99,9 +131,32 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
-          <div className="px-4 py-2 border-t border-slate-100">
+          <div className="px-4 py-2 border-t border-slate-100 flex items-center justify-between">
             <div className="px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-xs font-medium text-amber-700 text-center">
-              Protótipo - Dados Simulados
+              {t("nav.prototypeBadge")}
+            </div>
+            {/* Mobile Language Toggle */}
+            <div className="flex items-center bg-slate-100 rounded-full p-0.5">
+              <button
+                onClick={() => setLanguage("pt-BR")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  language === "pt-BR"
+                    ? "bg-white text-primary-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                PT
+              </button>
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                  language === "en"
+                    ? "bg-white text-primary-600 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                EN
+              </button>
             </div>
           </div>
         </div>

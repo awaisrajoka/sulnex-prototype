@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Stethoscope,
@@ -13,68 +15,73 @@ import {
   Globe,
   Lock,
 } from "lucide-react";
-
-const portals = [
-  {
-    title: "Portal Recepção",
-    description: "Agendamentos, check-in via WhatsApp, lista de espera e gestão de pacientes",
-    href: "/recepcao",
-    icon: ClipboardList,
-    gradient: "from-blue-500 to-blue-700",
-    stats: "10 consultas hoje",
-  },
-  {
-    title: "Portal Médico",
-    description: "Agenda do dia, prontuários eletrônicos, alertas clínicos e notas SOAP",
-    href: "/medico",
-    icon: Stethoscope,
-    gradient: "from-teal-500 to-teal-700",
-    stats: "8 pacientes na agenda",
-  },
-  {
-    title: "Portal Admin",
-    description: "Métricas, equipe, financeiro, WhatsApp e automações em tempo real",
-    href: "/admin",
-    icon: UserCog,
-    gradient: "from-purple-500 to-purple-700",
-    stats: "R$ 47.850 este mês",
-  },
-];
-
-const extraPages = [
-  {
-    title: "Fluxo WhatsApp",
-    description: "Demonstração visual do fluxo automatizado de mensagens",
-    href: "/whatsapp",
-    icon: MessageCircle,
-    color: "text-green-600 bg-green-50",
-  },
-  {
-    title: "Pipeline de Automação",
-    description: "7 módulos com 40+ fluxos n8n integrados",
-    href: "/automacoes",
-    icon: Workflow,
-    color: "text-orange-600 bg-orange-50",
-  },
-  {
-    title: "Esquema do Banco",
-    description: "20 tabelas com isolamento multi-tenant via org_id",
-    href: "/esquema",
-    icon: Database,
-    color: "text-slate-600 bg-slate-50",
-  },
-];
-
-const stats = [
-  { label: "Portais", value: "3", icon: Globe },
-  { label: "Tabelas", value: "20+", icon: Database },
-  { label: "Módulos", value: "7", icon: Workflow },
-  { label: "Automações", value: "30+", icon: Zap },
-];
+import Navbar from "@/components/Navbar";
+import { useI18n } from "@/i18n/context";
 
 export default function Home() {
+  const { t } = useI18n();
+
+  const portals = [
+    {
+      title: t("landing.portalReception"),
+      description: t("landing.portalReceptionDesc"),
+      href: "/recepcao",
+      icon: ClipboardList,
+      gradient: "from-blue-500 to-blue-700",
+      stats: t("landing.portalReceptionStat"),
+    },
+    {
+      title: t("landing.portalDoctor"),
+      description: t("landing.portalDoctorDesc"),
+      href: "/medico",
+      icon: Stethoscope,
+      gradient: "from-teal-500 to-teal-700",
+      stats: t("landing.portalDoctorStat"),
+    },
+    {
+      title: t("landing.portalAdmin"),
+      description: t("landing.portalAdminDesc"),
+      href: "/admin",
+      icon: UserCog,
+      gradient: "from-purple-500 to-purple-700",
+      stats: t("landing.portalAdminStat"),
+    },
+  ];
+
+  const extraPages = [
+    {
+      title: t("landing.whatsappFlow"),
+      description: t("landing.whatsappFlowDesc"),
+      href: "/whatsapp",
+      icon: MessageCircle,
+      color: "text-green-600 bg-green-50",
+    },
+    {
+      title: t("landing.automationPipeline"),
+      description: t("landing.automationPipelineDesc"),
+      href: "/automacoes",
+      icon: Workflow,
+      color: "text-orange-600 bg-orange-50",
+    },
+    {
+      title: t("landing.databaseSchema"),
+      description: t("landing.databaseSchemaDesc"),
+      href: "/esquema",
+      icon: Database,
+      color: "text-slate-600 bg-slate-50",
+    },
+  ];
+
+  const stats = [
+    { label: t("landing.statsPortals"), value: "3", icon: Globe },
+    { label: t("landing.statsTables"), value: "20+", icon: Database },
+    { label: t("landing.statsModules"), value: "7", icon: Workflow },
+    { label: t("landing.statsAutomations"), value: "30+", icon: Zap },
+  ];
+
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-500 via-[#0B3D5B] to-primary-800" />
@@ -95,13 +102,12 @@ export default function Home() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 max-w-3xl mx-auto leading-tight">
-              Escritório Virtual Inteligente
+              {t("landing.heroSubtitle")}
               <br />
-              <span className="text-accent-300">para Clínicas Médicas</span>
+              <span className="text-accent-300">{t("landing.heroHighlight")}</span>
             </h2>
             <p className="text-lg text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Gestão completa com agendamento inteligente, automação via WhatsApp,
-              prontuário eletrônico e NFS-e automática. Tudo integrado com n8n e Supabase.
+              {t("landing.heroDescription")}
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mb-12">
@@ -122,7 +128,7 @@ export default function Home() {
 
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-400/20 backdrop-blur-sm border border-amber-300/30 rounded-full text-sm text-amber-100">
               <Sparkles className="w-4 h-4" />
-              Protótipo Interativo - Dados Simulados
+              {t("landing.interactivePrototype")}
             </div>
           </div>
         </div>
@@ -138,10 +144,10 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <h3 className="text-sm font-semibold text-accent-500 uppercase tracking-wider mb-2">
-            Acesse os Portais
+            {t("landing.accessPortals")}
           </h3>
           <h2 className="text-3xl font-bold text-slate-900">
-            Três Experiências Integradas
+            {t("landing.threeExperiences")}
           </h2>
         </div>
 
@@ -199,17 +205,17 @@ export default function Home() {
       <section className="bg-slate-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">Stack Tecnológica</h3>
-            <p className="text-slate-500 text-sm">Arquitetura moderna, escalável e segura</p>
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">{t("landing.techStack")}</h3>
+            <p className="text-slate-500 text-sm">{t("landing.techStackDesc")}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: "Next.js 14", desc: "Frontend" },
+              { name: "Next.js 14", desc: t("landing.frontend") },
               { name: "Supabase", desc: "Database + Auth" },
-              { name: "n8n", desc: "Automação" },
-              { name: "WhatsApp API", desc: "Comunicação" },
-              { name: "Tailwind CSS", desc: "Design System" },
-              { name: "Vercel", desc: "Deploy" },
+              { name: "n8n", desc: t("landing.automation") },
+              { name: "WhatsApp API", desc: t("landing.communication") },
+              { name: "Tailwind CSS", desc: t("landing.designSystem") },
+              { name: "Vercel", desc: t("landing.deploy") },
             ].map((tech) => (
               <div key={tech.name} className="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
                 <div className="font-semibold text-slate-900 text-sm">{tech.name}</div>
@@ -231,10 +237,9 @@ export default function Home() {
               <Lock className="w-6 h-6 text-white" />
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-white mb-2">Segurança & Compliance</h3>
+          <h3 className="text-2xl font-bold text-white mb-2">{t("landing.securityTitle")}</h3>
           <p className="text-blue-100 text-sm max-w-lg mx-auto mb-6">
-            Isolamento multi-tenant com org_id, RBAC por papel, logs de auditoria completos,
-            criptografia em trânsito e em repouso. Preparado para LGPD.
+            {t("landing.securityDesc")}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {["Multi-tenant", "RBAC", "Audit Log", "LGPD Ready", "Row Level Security"].map(
@@ -263,10 +268,9 @@ export default function Home() {
             </span>
           </div>
           <p className="text-sm">
-            Preparado para{" "}
+            {t("footer.preparedFor")}{" "}
             <span className="text-white font-semibold">Renato Pereira</span> - Sulnex |{" "}
-            <span className="text-accent-400 font-semibold">BearPlex Technologies</span> | Abril
-            2026
+            <span className="text-accent-400 font-semibold">BearPlex Technologies</span> | {t("footer.date")}
           </p>
         </div>
       </footer>

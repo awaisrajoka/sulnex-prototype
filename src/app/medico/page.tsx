@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import StatusBadge from "@/components/StatusBadge";
 import { appointments, clinicalAlerts, patientTimeline, soapNote } from "@/lib/data";
+import { useI18n } from "@/i18n/context";
 import {
   CalendarDays,
   Users,
@@ -23,13 +24,6 @@ import {
   Calendar,
 } from "lucide-react";
 import { useState } from "react";
-
-const sidebarItems = [
-  { name: "Minha Agenda", href: "/medico", icon: CalendarDays },
-  { name: "Pacientes", href: "/medico", icon: Users },
-  { name: "Prontuários", href: "/medico", icon: FileText },
-  { name: "Alertas", href: "/medico", icon: AlertTriangle },
-];
 
 const doctorAppointments = appointments.filter((a) => a.doctor === "Dr. Rafael Mendes");
 
@@ -51,34 +45,58 @@ const timelineIcons: Record<string, typeof Activity> = {
   registration: UserPlus,
 };
 
-// Mini calendar - next 7 days
-const next7Days = Array.from({ length: 7 }, (_, i) => {
-  const d = new Date(2026, 3, 14 + i);
-  const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-  return {
-    day: d.getDate(),
-    weekday: weekdays[d.getDay()],
-    appointments: [8, 6, 7, 5, 4, 3, 0][i],
-    isToday: i === 0,
-  };
-});
-
 export default function MedicoPage() {
   const [showSoap, setShowSoap] = useState(false);
+  const { t } = useI18n();
+
+  const sidebarItems = [
+    { name: t("medico.mySchedule"), href: "/medico", icon: CalendarDays },
+    { name: t("medico.patients"), href: "/medico", icon: Users },
+    { name: t("medico.records"), href: "/medico", icon: FileText },
+    { name: t("medico.alerts"), href: "/medico", icon: AlertTriangle },
+  ];
+
+  const weekdays = [
+    t("medico.weekdaySun"),
+    t("medico.weekdayMon"),
+    t("medico.weekdayTue"),
+    t("medico.weekdayWed"),
+    t("medico.weekdayThu"),
+    t("medico.weekdayFri"),
+    t("medico.weekdaySat"),
+  ];
+
+  // Mini calendar - next 7 days
+  const next7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(2026, 3, 14 + i);
+    return {
+      day: d.getDate(),
+      weekday: weekdays[d.getDay()],
+      appointments: [8, 6, 7, 5, 4, 3, 0][i],
+      isToday: i === 0,
+    };
+  });
+
+  const soapSections = [
+    { label: t("medico.soapSubjective"), content: soapNote.subjective, color: "border-blue-400 bg-blue-50/50" },
+    { label: t("medico.soapObjective"), content: soapNote.objective, color: "border-green-400 bg-green-50/50" },
+    { label: t("medico.soapAssessment"), content: soapNote.assessment, color: "border-yellow-400 bg-yellow-50/50" },
+    { label: t("medico.soapPlan"), content: soapNote.plan, color: "border-purple-400 bg-purple-50/50" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       <div className="flex flex-1">
-        <Sidebar items={sidebarItems} title="Portal Médico" accentColor="bg-teal-600" />
+        <Sidebar items={sidebarItems} title={t("medico.sidebarTitle")} accentColor="bg-teal-600" />
         <main className="flex-1 p-6 lg:p-8 overflow-auto">
           {/* Header */}
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-slate-900">
-              Bom dia, Dr. Rafael <span className="text-2xl">&#128075;</span>
+              {t("medico.greeting")} <span className="text-2xl">&#128075;</span>
             </h1>
             <p className="text-sm text-slate-500">
-              Segunda-feira, 14 de Abril de 2026 - Clínica Bem Estar
+              {t("medico.dateLabel")}
             </p>
           </div>
 
@@ -90,9 +108,9 @@ export default function MedicoPage() {
                 <div className="p-5 border-b border-slate-100">
                   <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                     <Clock className="w-4 h-4 text-teal-600" />
-                    Agenda de Hoje
+                    {t("medico.todaySchedule")}
                     <span className="ml-2 px-2 py-0.5 bg-teal-50 text-teal-700 rounded-full text-xs font-medium">
-                      {doctorAppointments.length} pacientes
+                      {doctorAppointments.length} {t("medico.patientsCount")}
                     </span>
                   </h2>
                 </div>
@@ -115,7 +133,7 @@ export default function MedicoPage() {
                           {apt.type}
                           {apt.type === "Primeira Consulta" && (
                             <span className="ml-2 px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-medium">
-                              NOVO
+                              {t("medico.newBadge")}
                             </span>
                           )}
                         </div>
@@ -139,13 +157,13 @@ export default function MedicoPage() {
                   <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                       <FileText className="w-4 h-4 text-teal-600" />
-                      Prontuário - {soapNote.patient}
+                      {t("medico.medicalRecord")} - {soapNote.patient}
                     </h2>
                     <button
                       onClick={() => setShowSoap(!showSoap)}
                       className="text-xs font-medium text-teal-600 hover:text-teal-700"
                     >
-                      {showSoap ? "Recolher" : "Expandir"} Nota SOAP
+                      {showSoap ? t("medico.collapse") : t("medico.expand")} {t("medico.soapNote")}
                     </button>
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
@@ -154,12 +172,7 @@ export default function MedicoPage() {
                 </div>
                 {showSoap ? (
                   <div className="p-5 space-y-4">
-                    {[
-                      { label: "S - Subjetivo", content: soapNote.subjective, color: "border-blue-400 bg-blue-50/50" },
-                      { label: "O - Objetivo", content: soapNote.objective, color: "border-green-400 bg-green-50/50" },
-                      { label: "A - Avaliação", content: soapNote.assessment, color: "border-yellow-400 bg-yellow-50/50" },
-                      { label: "P - Plano", content: soapNote.plan, color: "border-purple-400 bg-purple-50/50" },
-                    ].map((section) => (
+                    {soapSections.map((section) => (
                       <div key={section.label} className={`border-l-4 ${section.color} rounded-r-lg p-4`}>
                         <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                           {section.label}
@@ -173,7 +186,7 @@ export default function MedicoPage() {
                 ) : (
                   <div className="p-5">
                     <div className="text-sm text-slate-500 italic">
-                      Clique em &quot;Expandir&quot; para ver a nota SOAP completa da última consulta.
+                      {t("medico.soapExpandHint")}
                     </div>
                   </div>
                 )}
@@ -183,7 +196,7 @@ export default function MedicoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <Activity className="w-4 h-4 text-teal-600" />
-                  Histórico do Paciente - Maria Silva
+                  {t("medico.patientHistory")}
                 </h2>
                 <div className="relative">
                   <div className="absolute left-4 top-0 bottom-0 w-px bg-slate-200" />
@@ -219,7 +232,7 @@ export default function MedicoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <Calendar className="w-4 h-4 text-teal-600" />
-                  Próximos 7 Dias
+                  {t("medico.next7Days")}
                 </h2>
                 <div className="grid grid-cols-7 gap-1">
                   {next7Days.map((day) => (
@@ -247,7 +260,7 @@ export default function MedicoPage() {
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <h2 className="font-semibold text-slate-900 flex items-center gap-2 mb-4">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
-                  Alertas Clínicos
+                  {t("medico.clinicalAlerts")}
                   <span className="ml-auto px-2 py-0.5 bg-red-50 text-red-600 rounded-full text-xs font-bold">
                     {clinicalAlerts.length}
                   </span>
@@ -275,13 +288,13 @@ export default function MedicoPage() {
 
               {/* Quick Stats */}
               <div className="bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl p-5 text-white">
-                <h3 className="font-semibold text-sm mb-4">Resumo de Hoje</h3>
+                <h3 className="font-semibold text-sm mb-4">{t("medico.todaySummary")}</h3>
                 <div className="space-y-3">
                   {[
-                    { label: "Total de consultas", value: doctorAppointments.length.toString() },
-                    { label: "Confirmadas", value: doctorAppointments.filter((a) => a.status === "confirmed").length.toString() },
-                    { label: "Pendentes", value: doctorAppointments.filter((a) => a.status === "pending").length.toString() },
-                    { label: "Primeira consulta", value: doctorAppointments.filter((a) => a.type === "Primeira Consulta").length.toString() },
+                    { label: t("medico.totalAppointments"), value: doctorAppointments.length.toString() },
+                    { label: t("medico.confirmedCount"), value: doctorAppointments.filter((a) => a.status === "confirmed").length.toString() },
+                    { label: t("medico.pendingCount"), value: doctorAppointments.filter((a) => a.status === "pending").length.toString() },
+                    { label: t("medico.firstConsultCount"), value: doctorAppointments.filter((a) => a.type === "Primeira Consulta").length.toString() },
                   ].map((stat) => (
                     <div key={stat.label} className="flex items-center justify-between">
                       <span className="text-sm text-teal-100">{stat.label}</span>
