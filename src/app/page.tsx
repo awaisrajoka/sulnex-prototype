@@ -268,42 +268,93 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Comparison Table */}
+      {/* Capability Comparison Table (Check/X Visual) */}
       <section className="bg-slate-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">{t("landing.comparisonTitle")}</h3>
-            <p className="text-slate-500 text-sm">{t("landing.comparisonSubtitle")}</p>
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">{t("landing.capTableTitle")}</h3>
+            <p className="text-slate-500 text-sm">{t("landing.capTableSubtitle")}</p>
           </div>
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-slate-800 text-white">
-                  <th className="text-left p-4 font-semibold min-w-[160px]">{t("landing.compFactor")}</th>
-                  <th className="text-left p-4 font-semibold min-w-[240px]">{t("landing.compNoCode")}</th>
-                  <th className="text-left p-4 font-semibold min-w-[240px]">{t("landing.compCustom")}</th>
-                  <th className="text-center p-4 font-semibold min-w-[120px]">{t("landing.compWinner")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: 13 }, (_, i) => {
-                  const row = i + 1;
-                  return (
-                    <tr key={row} className={`border-t border-slate-100 ${row % 2 === 0 ? "bg-slate-50" : "bg-white"}`}>
-                      <td className="p-4 font-medium text-slate-900">{t(`landing.compRow${row}Factor`)}</td>
-                      <td className="p-4 text-slate-600">{t(`landing.compRow${row}NoCode`)}</td>
-                      <td className="p-4 text-slate-600">{t(`landing.compRow${row}Custom`)}</td>
-                      <td className="p-4 text-center">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          {t(`landing.compRow${row}Winner`)}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                {/* Header */}
+                <thead>
+                  <tr className="border-b border-slate-200">
+                    <th className="text-left px-6 py-4 text-[11px] font-semibold text-slate-400 uppercase tracking-wider min-w-[260px]">
+                      {t("landing.capColCapability")}
+                    </th>
+                    <th className="text-center px-6 py-4 min-w-[180px]">
+                      <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">{t("landing.capColNoCode")}</div>
+                      <div className="text-[10px] text-slate-300 mt-0.5">{t("landing.capColNoCodeSub")}</div>
+                    </th>
+                    <th className="text-center px-6 py-4 min-w-[180px]">
+                      <div className="text-[11px] font-bold text-teal-700 uppercase tracking-wider">{t("landing.capColCustom")}</div>
+                      <div className="text-[10px] text-teal-500 mt-0.5">{t("landing.capColCustomSub")}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Helper: check icon */}
+                  {(() => {
+                    const CheckIcon = () => (
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="mx-auto">
+                        <circle cx="12" cy="12" r="10" stroke="#0D9488" strokeWidth="2" fill="none"/>
+                        <path d="M8 12l3 3 5-5" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    );
+                    const XIcon = () => (
+                      <span className="text-[#EF4444] text-xl font-semibold select-none">&#x2715;</span>
+                    );
+                    const NoteCell = ({ text }: { text: string }) => (
+                      <span className="text-xs text-slate-500 leading-tight">{text}</span>
+                    );
+
+                    const rows: { label: string; noCode: "x" | "check" | "note"; noCodeNote?: string; custom: "check" | "note"; customNote?: string }[] = [
+                      { label: t("landing.capRow1"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow2"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow3"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow4"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow5"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow6"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow7"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow8"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow9"), noCode: "note", noCodeNote: t("landing.capRow9NoCode"), custom: "check" },
+                      { label: t("landing.capRow10"), noCode: "check", custom: "check" },
+                      { label: t("landing.capRow11"), noCode: "check", custom: "check" },
+                      { label: t("landing.capRow12"), noCode: "note", noCodeNote: t("landing.capRow12NoCode"), custom: "check" },
+                      { label: t("landing.capRow13Nfse"), noCode: "note", noCodeNote: t("landing.capRow13NfseNoCode"), custom: "note", customNote: t("landing.capRow13NfseCustom") },
+                      { label: t("landing.capRow14"), noCode: "note", noCodeNote: t("landing.capRow14NoCode"), custom: "check" },
+                      { label: t("landing.capRow15"), noCode: "x", custom: "check" },
+                      { label: t("landing.capRow16"), noCode: "note", noCodeNote: t("landing.capRow16NoCode"), custom: "note", customNote: t("landing.capRow16Custom") },
+                    ];
+
+                    return rows.map((row, i) => (
+                      <tr key={i} className="border-t border-slate-100">
+                        <td className="px-6 py-4 text-sm text-slate-800">{row.label}</td>
+                        <td className="px-6 py-4 text-center">
+                          {row.noCode === "check" && <CheckIcon />}
+                          {row.noCode === "x" && <XIcon />}
+                          {row.noCode === "note" && <NoteCell text={row.noCodeNote || ""} />}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          {row.custom === "check" && <CheckIcon />}
+                          {row.custom === "note" && <NoteCell text={row.customNote || ""} />}
+                        </td>
+                      </tr>
+                    ));
+                  })()}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Recommendation Box */}
+          <div className="mt-6 bg-teal-50 border-l-4 border-teal-500 rounded-r-xl p-5">
+            <p className="text-sm text-slate-800 leading-relaxed">
+              <span className="font-bold text-teal-800">{t("landing.capRecommendationTitle")}</span>{" "}
+              {t("landing.capRecommendation")}
+            </p>
           </div>
         </div>
       </section>
